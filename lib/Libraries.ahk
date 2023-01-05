@@ -1,0 +1,9 @@
+﻿#Include <Log>
+#Include <Gdip>
+#Include <StaticFunctions>
+#Include <Window>
+#Include <Image>
+#Include <Mouse>
+#Include <Keyboard>
+#Include <Control>
+#Include <BotImage>
