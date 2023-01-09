@@ -1,14 +1,15 @@
 ﻿class Mouse
 {
-    Static I := "MOUSE_LEFT"
-    Static D := "MOUSE_RIGHT"
-    Static M := "MOUSE_MIDDLE"
-    Static MU := "MOUSE_MIDDLE_UP"
-    Static MD := "MOUSE_MIDDLE_DOWN"
+    Static I := "LEFT"
+    Static D := "RIGHT"
+    Static M := "MIDDLE"
+    Static MU := "MIDDLE_UP"
+    Static MD := "MIDDLE_DOWN"
 
-    __New(window)
+    __New(window, background := "")
     {
-        this.__readVariables(background)
+        if (background == "")
+            this.__readVariables(background)
         this.window := window
         this.background := background
     }
@@ -19,6 +20,7 @@
 
     use(button, x, y)
     {
+        log.debug("Mouse: [" . button . "]", "(" . x . ", " . y . ") -", this.background ? "back" : "fore")
         if this.background
             return this.modeBackground(button, x, y)
         this.modeForeground(button, x, y)
@@ -29,7 +31,7 @@
         MouseMove, %x%, %y%, %speed%, %relative%
     }
 
-    modeForeground(button, x, y, speed := 30, options := "")
+    modeForeground(button, x, y, speed := 100, options := "")
     {
         this.window.activate()
         Switch button

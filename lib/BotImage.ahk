@@ -1,10 +1,10 @@
 class BotImage
 {
-    __New(window := "", variation := 30)
+    __New(window := "", variation := 30, controlBackground := "")
     {
         this.window := window
         this.variation := variation
-        this.control := new Control(this.window)
+        this.control := new Control(this.window, controlBackground)
     }
 
     searchImages(byref foundX, byref foundY, nameImages := "", x := 0, y := 0, _x := "", _y := "", maxWaitingTime := 5000)
@@ -83,7 +83,7 @@ class BotImage
     {
         isFound := this.searchImages(foundX, foundY, nameImages, x, y, _x, _y, maxWaitingTime)
         if (isFound > 0)
-            this.control.sendClick(foundX, foundY, button, exactCoor)
+            this.control.sendClick(button, foundX, foundY, exactCoor)
         return isFound
     }
 }

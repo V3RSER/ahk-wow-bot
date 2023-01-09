@@ -6,12 +6,14 @@ log4ahk(para*)
 
 log.is_out_console := true
 log.is_use_editor := false
-log.level := log.level_debug
+log.level := log.level_trace
 log.func := false
 log.file := false
 log.line := false
 log.set_pattern("[%r] %^%v%$")
+log.level_debug := 0 ;desactivar debug
 
+; log.trace("blanco")
 ; log.info("verde")
 ; log.warn("amarillo")
 ; log.err("rojo")

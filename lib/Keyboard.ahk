@@ -7,6 +7,7 @@
 
     use(key, raw)
     {
+        log.debug("Key: [" . key . "]")
         this.window.activate()
         ; SetControlDelay -1
         if raw

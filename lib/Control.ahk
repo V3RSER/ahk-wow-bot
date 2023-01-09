@@ -1,25 +1,25 @@
 ﻿class Control
 {
-    __New(window := "")
+    __New(window, background := "")
     {
         this.window := window
-        this.mouse := new Mouse(this.window)
-        this.ketboard := new Keyboard(this.window)
+        this.mouse := new Mouse(this.window, background)
+        this.keyboard := new Keyboard(this.window)
     }
 
-    sendClick(x := 0, y := 0, button := "", exactCoor := false, vectorMinRandomCoor := "", vectorMaxRandomCoor := "")
+    sendClick(button := "", x := 0, y := 0, exactCoor := false, vectorMinRandomCoor := "", vectorMaxRandomCoor := "")
     {
         this.window.update()
         if !exactCoor
             this.__getRandomCoor(x, y, vectorMinRandomCoor, vectorMaxRandomCoor)
         if isEmpty(button)
             button := Mouse.I
-        this.mouse.use(button, x, y)
+        this.mouse.use(button, Floor(x), Floor(y))
     }
 
     sendKey(key, raw := false)
     {
-        this.ketboard.use(key, raw)
+        this.keyboard.use(key, raw)
     }
 
     moveMouse(x := 0, y := 0, speed := 0, relative := false, exactCoor := false, vectorMinRandomCoor := "", vectorMaxRandomCoor := "")
