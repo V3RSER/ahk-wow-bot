@@ -16,7 +16,7 @@ class Wow {
 
     scanRoutine()
     {
-        this.TSM_executeScan(["TSM_cancelScan", "TSM_cancelScan-hover"])
+        ; this.TSM_executeScan(["TSM_cancelScan", "TSM_cancelScan-hover"])
         while (this.botImage.isFound(["TSM_mailNotification"]))
         {
             this.TSM_openMail()
@@ -32,16 +32,18 @@ class Wow {
         log.warn("Ejecutando", buttons[1])
         this.botImageForeground.click(Mouse.I, buttons)
         sleep(300, 500)
+        ; this.botImage.wait(["TSM_doneCanceling"]) ; todo: implementar caso en que no hay nada que cancelar / postear
         this.searchButtonTSM()
     }
 
     TSM_subastar()
     {
         log.trace("Esperando subasta")
-        Switch % this.botImage.searchImages(x, y, ["TSM_subastar", "TSM_subastar-active"],,,,, 10000)
+        Switch % this.botImage.searchImages(x, y, ["TSM_subastar", "TSM_subastar-active"],,,,, 8000)
         {
         Case 0:
             log.critial("No se encontró la subasta")
+            sleep(0, 2000)
             this.goToAuctionHouse()
             this.TSM_subastar()
         Case 1:
@@ -51,8 +53,7 @@ class Wow {
         Case 2: log.info("Subastar abierto")
         Default:
         }
-        sleep(350, 500)
-
+        sleep(250, 350)
     }
 
     __comprobateScanInProgres()
@@ -68,7 +69,7 @@ class Wow {
         default:
             return false
         }
-        log.warn("Finalizando escaneo")
+        log.warn("Escaneo en curso")
         if !isEmpty(buttonsFound)
             this.TSM_macro(buttonsFound, 5000)
         sleep(300, 500)
@@ -90,8 +91,8 @@ class Wow {
     TSM_openMail()
     {
         log.critical("Abrir el correo")
-        TrayTip, Bot, Abrir el correo
-        this.botImage.wait(["TSM_menuMail"],,,,, 5*5*1000)
+        TrayTip, WoW, Abrir el correo
+        this.botImage.wait(["TSM_menuMail"],,,,, 5*60*1000)
         sleep(250, 400)
         if !this.botImage.isFound(["TSM_openMail-disable"])
         {
@@ -99,6 +100,7 @@ class Wow {
             log.warn("Abriendo correo")
             sleep(500)
             this.botImage.wait(["TSM_openMail", "TSM_openMail-hover", "TSM_openMail-disable"],,,,, 2*60*1000)
+            sleep(50, 500)
         }
         log.info("Correo revisado")
     }
