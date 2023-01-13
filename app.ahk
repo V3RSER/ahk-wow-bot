@@ -16,7 +16,7 @@ class Wow {
 
     scanRoutine()
     {
-        ; this.TSM_executeScan(["TSM_cancelScan", "TSM_cancelScan-hover"])
+        this.TSM_executeScan(["TSM_cancelScan", "TSM_cancelScan-hover"])
         while (this.botImage.isFound(["TSM_mailNotification"]))
         {
             this.TSM_openMail()
@@ -39,11 +39,11 @@ class Wow {
     TSM_subastar()
     {
         log.trace("Esperando subasta")
-        Switch % this.botImage.searchImages(x, y, ["TSM_subastar", "TSM_subastar-active"],,,,, 8000)
+        Switch % this.botImage.searchImages(x, y, ["TSM_subastar", "TSM_subastar-active"],,,,, 9000)
         {
         Case 0:
             log.critial("No se encontró la subasta")
-            sleep(0, 2000)
+            sleep(0, 250)
             this.goToAuctionHouse()
             this.TSM_subastar()
         Case 1:
@@ -53,7 +53,7 @@ class Wow {
         Case 2: log.info("Subastar abierto")
         Default:
         }
-        sleep(250, 350)
+        sleep(50, 350)
     }
 
     __comprobateScanInProgres()
@@ -93,7 +93,7 @@ class Wow {
         log.critical("Abrir el correo")
         TrayTip, WoW, Abrir el correo
         this.botImage.wait(["TSM_menuMail"],,,,, 5*60*1000)
-        sleep(250, 400)
+        sleep(500, 1000)
         if !this.botImage.isFound(["TSM_openMail-disable"])
         {
             this.botImageForeground.click(Mouse.I, ["TSM_openMail", "TSM_openMail-hover"])
@@ -114,6 +114,7 @@ class Wow {
         sleep(50, 150)
         this.__getRandomCoor(x, y)
         this.control.sendClick(Mouse.MD, x, y)
+        ;Todo: implementar caminar automático
     }
 
     searchButtonTSM()
