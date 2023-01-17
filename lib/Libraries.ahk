@@ -7,3 +7,4 @@
 #Include <Keyboard>
 #Include <Control>
 #Include <BotImage>
+#Include <Array>
