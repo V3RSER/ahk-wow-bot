@@ -14,3 +14,22 @@ sleep(min, max := 0)
     Sleep, % Round(ms)
     return ms
 }
+
+class Var{
+    __New(section, name)
+    {
+        this.section := section
+        this.name := name
+    }
+
+    get()
+    {
+        IniRead, value, settings.ini, % this.section, % this.name
+        return value
+    }
+
+    set(value)
+    {
+        IniWrite, %value%, settings.ini, % this.section, % this.name
+    }
+}

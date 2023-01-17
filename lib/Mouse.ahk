@@ -6,16 +6,10 @@
     Static MU := "MIDDLE_UP"
     Static MD := "MIDDLE_DOWN"
 
-    __New(window, background := "")
+    __New(window, background := true)
     {
-        if (background == "")
-            this.__readVariables(background)
         this.window := window
         this.background := background
-    }
-
-    __readVariables(ByRef background){
-        IniRead, background, settings.ini, mouse, background
     }
 
     use(button, x, y)

@@ -3,16 +3,11 @@
     static FOLDER := A_ScriptDir "\images\"
     static EXTENSION := ".png"
     bitmap := "", dir := ""
+    background := new Var("capture", "background").get()
     __New(window := "", name := "")
     {
-        this.__readVariables(background)
         this.window := window
         this.name := name
-        this.background := background
-    }
-
-    __readVariables(ByRef background) {
-        IniRead, background, settings.ini, capture, background
     }
 
     getFromFile()

@@ -15,6 +15,7 @@ class TSM
     static exitScan = ["TSM_exitScan", "TSM_exitScan-hover"]
     static cancelScan = ["TSM_cancelScan", "TSM_cancelScan-hover"]
     static postScan = ["TSM_postScan", "TSM_postScan-hover"]
+    varLastCancel := new Var("vars", "lastCancelScan")
 
     __New(window)
     {
@@ -25,7 +26,8 @@ class TSM
 
     scanRoutine()
     {
-        this.executeScan(TSM.cancelScan)
+        if this.__readyForCancelScan()
+            this.executeScan(TSM.cancelScan)
         while (this.images.isFound(["TSM_mailNotification"]))
         {
             this.openMail()
@@ -118,7 +120,9 @@ class TSM
             .concat(TSM.destroyNext).concat(TSM.mail)
         switch this.images.wait(buttons,,,,, 5*60*1000)
         {
-        case 1, 2: this.pressMacro(TSM.cancelar, 7)
+        case 1, 2:
+            this.pressMacro(TSM.cancelar, 7)
+            this.varLastCancel.set(A_TickCount)
         case 3, 4: this.pressMacro(TSM.post, 7)
         case 5, 6: this.pressMacro(TSM.craftNext,, 30000)
         case 7, 8: this.pressMacro(TSM.destroyNext)
@@ -166,13 +170,17 @@ class TSM
         this.__getRandomCoor(x, y)
         this.control.moveMouse(x, y)
     }
+
+    __readyForCancelScan()
+    {
+        return A_TickCount - this.varLastCancel.get() > 5*60*1000
+    }
 }
 
 #Include <Libraries>
 initWindow()
 
 tsm := new TSM(window)
-
 ; tsm.scanRoutine()
 
 xButton2::

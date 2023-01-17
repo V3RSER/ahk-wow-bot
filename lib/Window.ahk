@@ -20,14 +20,11 @@
     __readVariables(ByRef title, ByRef dir)
     {
         if isEmpty(title)
-            IniRead, title, settings.ini, window, title
-
-        IniRead, completeTitle, settings.ini, window, completeTitle
-        if completeTitle
+            title := new Var("window", "title").get()
+        if new Var("window", "completeTitle").get()
             title := this.__completeTitle(title)
-
         if isEmpty(dir)
-            IniRead, dir, settings.ini, window, dir
+            dir := new Var("window", "dir").get()
     }
 
     __completeTitle(title)
