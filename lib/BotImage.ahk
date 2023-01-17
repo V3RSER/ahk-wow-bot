@@ -1,10 +1,14 @@
 class BotImage
 {
-    __New(window := "", variation := 30, controlBackground := "")
+    __New(window := "", variation := 30, background := true)
     {
         this.window := window
         this.variation := variation
-        this.control := new Control(this.window, controlBackground)
+        this.control := new Control(window)
+        if background
+            this.foreground := new BotImage(window, variation, false)
+        else
+            this.control := this.control.foreground
     }
 
     searchImages(byref foundX, byref foundY, nameImages := "", x := 0, y := 0, _x := "", _y := "", maxWaitingTime := 5000)
@@ -79,11 +83,11 @@ class BotImage
         return this.searchImages(foundX, foundY, nameImages, x, y, _x, _y, waitingTime)
     }
 
-    click(button := "", nameImages := "", x := 0, y := 0, _x := "", _y := "", maxWaitingTime := 5000, exactCoor := false)
+    click(button := "", nameImages := "", x := 0, y := 0, _x := "", _y := "", maxWaitingTime := 5000)
     {
         isFound := this.searchImages(foundX, foundY, nameImages, x, y, _x, _y, maxWaitingTime)
         if (isFound > 0)
-            this.control.sendClick(button, foundX, foundY, exactCoor)
+            this.control.sendClick(button, foundX, foundY)
         return isFound
     }
 }

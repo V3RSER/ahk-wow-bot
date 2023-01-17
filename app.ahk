@@ -19,10 +19,18 @@ class TSM
     __New(window)
     {
         this.window := window
-        this.images := new BotImage(window)
-        this.imagesForeground := new BotImage(window,, false)
         this.control := new Control(window)
-        this.controlForeground := new Control(window, false)
+        this.images := new BotImage(window)
+    }
+
+    scanRoutine()
+    {
+        this.executeScan(TSM.cancelScan)
+        while (this.images.isFound(["TSM_mailNotification"]))
+        {
+            this.openMail()
+            this.executeScan(TSM.postScan)
+        }
     }
 
     executeScan(buttons)
@@ -31,7 +39,7 @@ class TSM
         this.waitAuctionHouse()
         this.__comprobateScanInProgres()
         log.warn("Ejecutando", buttons[1])
-        this.imagesForeground.click(Mouse.I, buttons)
+        this.images.foreground.click(Mouse.I, buttons)
         sleep(300, 500)
         ; this.images.wait(["TSM_doneCanceling"]) ; todo: implementar caso en que no hay nada que cancelar / postear
         this.searchButton()
@@ -48,7 +56,7 @@ class TSM
             this.waitAuctionHouse()
         case 1:
             log.warn("Abriendo subastar") sleep(150, 350)
-            this.controlForeground.sendClick(Mouse.I, x, y)
+            this.control.foreground.sendClick(Mouse.I, x, y)
         case 2:
             log.info("Subastar abierto")
         Default:
@@ -62,10 +70,10 @@ class TSM
         TrayTip, WoW, Abrir el correo
 
         this.images.wait(["TSM_menuMail"],,,,, 5*60*1000)
-        sleep(500, 1000)
+        sleep(500, 700)
         if !this.images.isFound(TSM.mail[3])
         {
-            this.imagesForeground.click(Mouse.I, [].concat(TSM.mail[1]).concat(TSM.mail[2]))
+            this.images.foreground.click(Mouse.I, [].concat(TSM.mail[1]).concat(TSM.mail[2]))
             log.warn("Abriendo correo") sleep(500)
             this.images.wait(TSM.mail,,,,, 2*60*1000)
             sleep(50, 500)
@@ -87,7 +95,7 @@ class TSM
         if !isEmpty(buttonsFound)
             this.pressMacro(buttonsFound)
         sleep(300, 500)
-        this.imagesForeground.click(Mouse.I, TSM.exitScan)
+        this.images.foreground.click(Mouse.I, TSM.exitScan)
     }
 
     pressMacro(buttons, maxWheel := 4, time := 5000)
@@ -106,28 +114,23 @@ class TSM
         log.trace("Esperando botón TSM")
 
         this.__clearMouse()
-        buttons := [].concat(TSM.cancelar).concat(TSM.post).concat(TSM.craftNext).concat(TSM.destroyNext)
+        buttons := [].concat(TSM.cancelar).concat(TSM.post).concat(TSM.craftNext)
+            .concat(TSM.destroyNext).concat(TSM.mail)
         switch this.images.wait(buttons,,,,, 5*60*1000)
         {
         case 1, 2: this.pressMacro(TSM.cancelar, 7)
         case 3, 4: this.pressMacro(TSM.post, 7)
         case 5, 6: this.pressMacro(TSM.craftNext,, 30000)
         case 7, 8: this.pressMacro(TSM.destroyNext)
+        case 9, 10:
+            this.openMail()
+            this.executeScan(TSM.postScan)
+        case 11:
         Default:
         }
 
         log.info("Ejecución finalizada")
         TrayTip, TSM, Ejecución finalizada
-    }
-
-    scanRoutine()
-    {
-        this.executeScan(TSM.cancelScan)
-        while (this.images.isFound(["TSM_mailNotification"]))
-        {
-            this.openMail()
-            this.executeScan(TSM.postScan)
-        }
     }
 
     goToAuctionHouse()
