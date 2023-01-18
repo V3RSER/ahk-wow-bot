@@ -20,6 +20,7 @@ log.level_debug := 0 ;desactivar debug
 
 class log
 {
+    static alwaysOnTop := true
     static line := true
     static file := true
     static func := true
@@ -130,6 +131,8 @@ class log
             bk := RegisterCallback("console_close_callback")
             DllCall("SetConsoleCtrlHandler", "Ptr", bk, "Int", 1)
             this.is_console_config := true
+            if this.alwaysOnTop
+                Winset, AlwaysOnTop, , %A_ScriptName%
         }
         if(A_IsCompiled)
         {

@@ -149,13 +149,13 @@ class TSM
         ;Todo: implementar caminar automático
     }
 
-    humanWheelUp(x, y)
+    humanWheelUp(x, y, maxWheel)
     {
-        loop % rand(1, 4)
+        loop % rand(3, maxWheel)
         {
             this.control.sendClick(Mouse.MU, x, y)
             ; log.err("Rueda (" A_Index ")")
-            sleep(15, 100)
+            sleep(15, rand(1, 3) == 1 ? 100 : 70)
         }
     }
 
@@ -198,11 +198,6 @@ Return
 initWindow()
 {
     log.trace("Iniciando Bot")
-    ; Winset, AlwaysOnTop, , WoW.ahk
-    Winset, AlwaysOnTop, , C:\Program Files\AutoHotkey\AutoHotkey.exe
-    IfExist % Image.FOLDER . "icon.ico"
-        Menu Tray, Icon, % Image.FOLDER . "icon.ico"
-
     global window := new Window()
     if !window.wait()
     {

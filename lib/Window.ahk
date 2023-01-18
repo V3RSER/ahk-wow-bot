@@ -9,6 +9,7 @@
         this.title := title
         this.dir := dir
         this.id := id
+        Window.ico()
     }
 
     __getTitleById(id)
@@ -90,4 +91,9 @@
             _y := this.h
     }
 
+    ico()
+    {
+        IfExist % Image.FOLDER . "icon.ico"
+            Menu Tray, Icon, % Image.FOLDER . "icon.ico"
+    }
 }
