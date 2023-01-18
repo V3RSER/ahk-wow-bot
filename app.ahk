@@ -200,6 +200,8 @@ initWindow()
     log.trace("Iniciando Bot")
     ; Winset, AlwaysOnTop, , WoW.ahk
     Winset, AlwaysOnTop, , C:\Program Files\AutoHotkey\AutoHotkey.exe
+    IfExist % Image.FOLDER . "icon.ico"
+        Menu Tray, Icon, % Image.FOLDER . "icon.ico"
 
     global window := new Window()
     if !window.wait()

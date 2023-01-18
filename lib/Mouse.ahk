@@ -14,7 +14,7 @@
 
     use(button, x, y)
     {
-        log.debug("Mouse: [" . button . "]", "(" . x . ", " . y . ") -", this.background ? "back" : "fore")
+        log.debug("Mouse: [" . button . "]", "(" . x . ", " . y . ") -back:", this.background ? "true" : "false")
         if this.background
             return this.modeBackground(button, x, y)
         this.modeForeground(button, x, y)

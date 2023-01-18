@@ -21,6 +21,7 @@ class BotImage
         imageWindow := new Image(this.window, "area-de-busqueda")
         indexFoundImage := 0
         startTime := A_TickCount
+        log.debug("Buscando:", nameImages, "(", Floor(maxWaitingTime/1000), "s)")
         while ((A_TickCount - startTime) <= maxWaitingTime)
         {
             imageWindow.getFromWindow()
@@ -32,6 +33,7 @@ class BotImage
                 if (foundImage := Gdip_ImageSearch(imageWindow.bitmap, image.bitmap, foundXY, x, y, _x, _y, this.variation))
                 {
                     indexFoundImage := index
+                    log.debug("Encontrado:", nameImages[indexFoundImage])
                     break
                 }
             }
